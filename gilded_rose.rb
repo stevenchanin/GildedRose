@@ -14,6 +14,10 @@ class GildedRose
     @items << Item.new("Conjured Mana Cake", 3, 6)
   end
 
+  def find_item(name)
+    @items.detect {|i| i.name =~ Regexp.new("#{name}","i")}
+  end
+
   def update_quality
 
     for i in 0..(@items.size-1)
