@@ -184,12 +184,21 @@ describe "GildedRose" do
       @backstage.quality.should eql(35)
 
       quality = 35
-#      (10..6).each do |i|
-#        quality += 2
+      (5..1).each do |i|
+        quality += 3
 
-#        @rose.update_quality
-#        @backstage.quality.should eql(quality)
-#      end
+        @rose.update_quality
+        @backstage.quality.should eql(quality)
+      end
+    end
+
+    it "should drop to 0 after sell_in date hits 0" do
+      15.times { @rose.update_quality }
+      @backstage.quality.should eql(50)
+      @backstage.sell_in.should eql(0)
+
+        @rose.update_quality
+        @backstage.quality.should eql(0)
     end
 
   end #backstage
