@@ -202,4 +202,99 @@ describe "GildedRose" do
     end
 
   end #backstage
+
+  describe "Conjoured" do
+    describe "Mana Cake" do
+      before(:each) do
+        @conjoured = @rose.find_item("Conjured")
+      end
+
+      it "should start with sell_in 3 and quality 6" do
+        @conjoured.sell_in.should eql(3)
+        @conjoured.quality.should eql(6)
+      end
+
+      it "should lose 2 quality points per day for the first 3" do
+        quality = 6
+        day = 3
+
+        3.times do
+          quality -= 2
+          day -= 1
+
+          @rose.update_quality
+          @conjoured.sell_in.should eql(day)
+          @conjoured.quality.should eql(quality)
+        end
+      end
+
+      # it "should lose 4 quality points for the next 5 days" do
+      #   10.times { @rose.update_quality }
+
+      #   quality = @conjoured.quality
+
+      #   5.times do
+      #     quality -= 2
+
+      #     @rose.update_quality
+      #     @conjoured.quality.should eql(quality)
+      #   end
+      # end
+
+      it "should min out at 0 quality" do
+        15.times { @rose.update_quality }
+        @conjoured.quality.should eql(0)
+
+        @rose.update_quality
+        @conjoured.quality.should eql(0)
+      end
+    end #mana cake
+
+    describe "Biscuit" do
+      before(:each) do
+        @conjoured = @rose.find_item("Biscuit")
+      end
+
+      it "should start with sell_in 10 and quality 40" do
+        @conjoured.sell_in.should eql(10)
+        @conjoured.quality.should eql(40)
+      end
+
+      it "should lose 2 quality points per day for the first 10" do
+        quality = 40
+        day = 10
+
+        10.times do
+          quality -= 2
+          day -= 1
+
+          @rose.update_quality
+          @conjoured.sell_in.should eql(day)
+          @conjoured.quality.should eql(quality)
+        end
+      end
+
+      it "should lose 4 quality points for the next 5 days" do
+        10.times { @rose.update_quality }
+
+        quality = @conjoured.quality
+
+        5.times do
+          quality -= 4
+
+          @rose.update_quality
+          @conjoured.quality.should eql(quality)
+        end
+      end
+
+      it "should min out at 0 quality" do
+        15.times { @rose.update_quality }
+        @conjoured.quality.should eql(0)
+
+        @rose.update_quality
+        @conjoured.quality.should eql(0)
+      end
+    end #biscuit
+  end #conjoured
+
 end
